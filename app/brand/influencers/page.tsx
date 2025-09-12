@@ -7,23 +7,18 @@ import { Search, DollarSign, Star, TrendingUp, LogOut } from 'lucide-react'
 
 export default function InfluencerDashboard() {
   const router = useRouter()
-  const [user, setUser] = useState<any>(null)
-  const [campaigns, setCampaigns] = useState<any[]>([])
-  const [applications, setApplications] = useState<any[]>([])
-  const [stats, setStats] = useState({
+  const [user, setUser] = useState<{ full_name?: string } | null>(null)
+  const [campaigns, setCampaigns] = useState<Array<{ id: string; title: string; description: string; budget: number }>>([])
+  const [applications, setApplications] = useState<Array<{ id: string; campaign_id: string; status: string; campaigns?: { title: string; description: string } }>>([])
+  const stats = {
     earnings: 0,
     activeCampaigns: 0,
     rating: 4.8,
     totalReach: 0
-  })
+  }
 
   useEffect(() => {
-    checkUser()
-    loadCampaigns()
-    loadApplications()
-  }, [])
-
-  const checkUser = async () => {
+    const checkUser = async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       router.push('/')
@@ -37,9 +32,9 @@ export default function InfluencerDashboard() {
       .single()
 
     setUser(profile)
-  }
+    }
 
-  const loadCampaigns = async () => {
+    const loadCampaigns = async () => {
     const { data } = await supabase
       .from('campaigns')
       .select('*')
@@ -47,9 +42,9 @@ export default function InfluencerDashboard() {
       .order('created_at', { ascending: false })
 
     if (data) setCampaigns(data)
-  }
+    }
 
-  const loadApplications = async () => {
+    const loadApplications = async () => {
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) return
 
@@ -60,7 +55,12 @@ export default function InfluencerDashboard() {
       .order('created_at', { ascending: false })
 
     if (data) setApplications(data)
-  }
+    }
+
+    checkUser()
+    loadCampaigns()
+    loadApplications()
+  }, [router])
 
   const applyToCampaign = async (campaignId: string) => {
     const { data: { user } } = await supabase.auth.getUser()
@@ -76,7 +76,14 @@ export default function InfluencerDashboard() {
 
     if (!error) {
       alert('¡Aplicación enviada!')
-      loadApplications()
+      // Reload applications
+      const { data } = await supabase
+        .from('applications')
+        .select('*, campaigns(*)')
+        .eq('influencer_id', user.id)
+        .order('created_at', { ascending: false })
+      
+      if (data) setApplications(data)
     }
   }
 

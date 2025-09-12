@@ -43,8 +43,8 @@ export default function NewCampaign() {
       if (error) throw error
 
       router.push('/brand/campaigns')
-    } catch (error: any) {
-      alert(error.message)
+    } catch (error: unknown) {
+      alert(error instanceof Error ? error.message : 'An error occurred')
     } finally {
       setLoading(false)
     }
