@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TUTUCA - La Plataforma #1 de Influencer Marketing en LATAM</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #000000;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 0.5rem 0;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #999;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: #00ff88;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #00ff88;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00ff88;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6rem 2rem 2rem;
+            background: radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 204, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            text-align: center;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            color: #00ff88;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            background: linear-gradient(135deg, #ffffff 0%, #999999 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-highlight {
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            color: #999;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 4rem;
+            animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        /* Floating Elements */
+        .floating-cards {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) rotate(0deg);
+            }
+            25% {
+                transform: translateY(-20px) rotate(2deg);
+            }
+            75% {
+                transform: translateY(20px) rotate(-2deg);
+            }
+        }
+
+        .floating-card:nth-child(1) {
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+            top: 60%;
+            right: 10%;
+            animation-delay: 5s;
+        }
+
+        .floating-card:nth-child(3) {
+            bottom: 20%;
+            left: 15%;
+            animation-delay: 10s;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.02) 50%, transparent 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-badge {
+            display: inline-block;
+            background: rgba(0, 204, 255, 0.1);
+            border: 1px solid rgba(0, 204, 255, 0.3);
+            color: #00ccff;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            color: #999;
+            font-size: 1.125rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #00ff88, #00ccff);
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+            transform: translateX(0);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 136, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-description {
+            color: #999;
+            line-height: 1.6;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 204, 255, 0.2));
+            border: 2px solid #00ff88;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin: 0 auto 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .step:hover .step-number {
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-description {
+            color: #999;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 204, 255, 0.02) 50%, transparent 100%);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .testimonial-quote {
+            font-size: 2rem;
+            color: #00ff88;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+            color: #ccc;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #000;
+        }
+
+        .author-info {
+            flex: 1;
+        }
+
+        .author-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .author-role {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        .testimonial-rating {
+            color: #ffcc00;
+        }
+
+        /* Pricing */
+        .pricing {
+            padding: 6rem 2rem;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.02);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+            border-color: #00ff88;
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            color: #000;
+            padding: 0.25rem 1rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(0, 255, 136, 0.5);
+        }
+
+        .pricing-plan {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #00ff88;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-period {
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-feature {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .pricing-feature:last-child {
+            border-bottom: none;
+        }
+
+        .check-icon {
+            color: #00ff88;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 204, 255, 0.05) 100%);
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-subtitle {
+            color: #999;
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 4rem 2rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .footer-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+            color: #00ff88;
+            transform: scale(1.1);
+        }
+
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .footer-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-link {
+            color: #666;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #00ff88;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.125rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <div class="logo">TUTUCA</div>
+            
+            <div class="nav-links">
+                <a href="#features" class="nav-link">Características</a>
+                <a href="#how-it-works" class="nav-link">Cómo Funciona</a>
+                <a href="#pricing" class="nav-link">Precios</a>
+                <a href="#testimonials" class="nav-link">Testimonios</a>
+            </div>
+            
+            <div class="nav-buttons">
+                <a href="#login" class="btn btn-secondary">Iniciar Sesión</a>
+                <a href="#signup" class="btn btn-primary">Empezar Gratis</a>
+            </div>
+            
+            <button class="mobile-menu-toggle">☰</button>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="floating-cards">
+            <div class="floating-card">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📸</div>
+                <div style="font-weight: 600;">+2.5M</div>
+                <div style="color: #666; font-size: 0.875rem;">Contenidos</div>
+            </div>
+            
+            <div class="floating-card">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">⭐</div>
+                <div style="font-weight: 600;">4.9/5</div>
+                <div style="color: #666; font-size: 0.875rem;">Rating</div>
+            </div>
+            
+            <div class="floating-card">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">🚀</div>
+                <div style="font-weight: 600;">15K+</div>
+                <div style="color: #666; font-size: 0.875rem;">Campañas</div>
+            </div>
+        </div>
+        
+        <div class="hero-content">
+            <div class="hero-badge">🔥 #1 EN LATAM</div>
+            
+            <h1 class="hero-title">
+                Conectamos <span class="hero-highlight">Marcas</span><br>
+                con <span class="hero-highlight">Influencers</span> Auténticos
+            </h1>
+            
+            <p class="hero-subtitle">
+                La plataforma todo-en-uno para gestionar campañas de influencer marketing<br>
+                con resultados medibles y ROI garantizado
+            </p>
+            
+            <div class="hero-buttons">
+                <a href="#signup" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.125rem;">
+                    Empezar Gratis →
+                </a>
+                <a href="#demo" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.125rem;">
+                    Ver Demo
+                </a>
+            </div>
+            
+            <div class="hero-stats">
+                <div class="stat">
+                    <div class="stat-value">10K+</div>
+                    <div class="stat-label">Influencers Verificados</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">500+</div>
+                    <div class="stat-label">Marcas Activas</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">$5M+</div>
+                    <div class="stat-label">Pagos Procesados</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">4.2x</div>
+                    <div class="stat-label">ROI Promedio</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-badge">CARACTERÍSTICAS</div>
+            <h2 class="section-title">Todo lo que necesitas en un solo lugar</h2>
+            <p class="section-subtitle">
+                Herramientas poderosas para marcas e influencers
+            </p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔍</div>
+                <h3 class="feature-title">Discovery Inteligente</h3>
+                <p class="feature-description">
+                    Encuentra influencers perfectos con IA. Filtros avanzados por nicho, 
+                    engagement, ubicación y más. Match del 95% garantizado.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3 class="feature-title">Analytics en Tiempo Real</h3>
+                <p class="feature-description">
+                    Métricas detalladas de cada campaña. ROI, alcance, engagement y 
+                    conversiones actualizadas al instante.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💬</div>
+                <h3 class="feature-title">Mensajería Integrada</h3>
+                <p class="feature-description">
+                    Comunícate directamente con influencers. Chat en tiempo real, 
+                    compartir archivos y negociación transparente.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">💳</div>
+                <h3 class="feature-title">Pagos Seguros</h3>
+                <p class="feature-description">
+                    Sistema de pagos integrado con escrow. Múltiples métodos de pago 
+                    y facturación automática.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🚀</div>
+                <h3 class="feature-title">Gestión de Campañas</h3>
+                <p class="feature-description">
+                    Crea, gestiona y escala campañas fácilmente. Workflows automatizados 
+                    y aprobaciones rápidas.
+                </p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">⭐</div>
+                <h3 class="feature-title">Reviews Verificados</h3>
+                <p class="feature-description">
+                    Sistema de calificaciones bidireccional. Construye confianza 
+                    con feedback transparente.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="section-header">
+            <div class="section-badge">PROCESO SIMPLE</div>
+            <h2 class="section-title">Cómo Funciona TUTUCA</h2>
+            <p class="section-subtitle">
+                De la idea a resultados en 4 simples pasos
+            </p>
+        </div>
+        
+        <div class="steps-container">
+            <div class="step">
+                <div class="step-number">1</div>
+                <h3 class="step-title">Crea tu Campaña</h3>
+                <p class="step-description">
+                    Define objetivos, presupuesto y requisitos en minutos
+                </p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <h3 class="step-title">Encuentra Influencers</h3>
+                <p class="step-description">
+                    Recibe aplicaciones o busca en nuestra base de +10K creators
+                </p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <h3 class="step-title">Colabora</h3>
+                <p class="step-description">
+                    Gestiona contenido, comunicación y pagos en un solo lugar
+                </p>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">4</div>
+                <h3 class="step-title">Mide Resultados</h3>
+                <p class="step-description">
+                    Analytics detallados y ROI en tiempo real
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+        <div class="section-header">
+            <div class="section-badge">TESTIMONIOS</div>
+            <h2 class="section-title">Historias de Éxito</h2>
+            <p class="section-subtitle">
+                Lo que dicen nuestros usuarios
+            </p>
+        </div>
+        
+        <div class="testimonials-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">
+                    TUTUCA transformó completamente nuestra estrategia de marketing. 
+                    El ROI aumentó 4x y ahorramos 20 horas semanales en gestión.
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">MG</div>
+                    <div class="author-info">
+                        <div class="author-name">María González</div>
+                        <div class="author-role">CMO en Fashion Brand</div>
+                    </div>
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">
+                    Como influencer, TUTUCA me conectó con marcas perfectas para mi audiencia. 
+                    Mis ingresos crecieron 300% en 6 meses.
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">CL</div>
+                    <div class="author-info">
+                        <div class="author-name">Carlos López</div>
+                        <div class="author-role">@carloslifestyle • 120K</div>
+                    </div>
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-quote">"</div>
+                <p class="testimonial-text">
+                    La mejor plataforma de influencer marketing. Interface intuitiva, 
+                    soporte excepcional y resultados medibles.
+                </p>
+                <div class="testimonial-author">
+                    <div class="author-avatar">AP</div>
+                    <div class="author-info">
+                        <div class="author-name">Ana Pérez</div>
+                        <div class="author-role">Directora en TechCorp</div>
+                    </div>
+                    <div class="testimonial-rating">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="pricing" id="pricing">
+        <div class="section-header">
+            <div class="section-badge">PRECIOS</div>
+            <h2 class="section-title">Planes para cada necesidad</h2>
+            <p class="section-subtitle">
+                Transparente, sin sorpresas
+            </p>
+        </div>
+        
+        <div class="pricing-grid">
+            <div class="pricing-card">
+                <h3 class="pricing-plan">Starter</h3>
+                <div class="pricing-price">$99</div>
+                <div class="pricing-period">por mes</div>
+                
+                <ul class="pricing-features">
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Hasta 5 campañas activas
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        20 influencers por mes
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Analytics básicos
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Soporte por email
+                    </li>
+                </ul>
+                
+                <a href="#" class="btn btn-secondary" style="width: 100%;">Empezar</a>
+            </div>
+            
+            <div class="pricing-card featured">
+                <h3 class="pricing-plan">Professional</h3>
+                <div class="pricing-price">$299</div>
+                <div class="pricing-period">por mes</div>
+                
+                <ul class="pricing-features">
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Campañas ilimitadas
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        100 influencers por mes
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Analytics avanzados
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        API access
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Soporte prioritario
+                    </li>
+                </ul>
+                
+                <a href="#" class="btn btn-primary" style="width: 100%;">Empezar</a>
+            </div>
+            
+            <div class="pricing-card">
+                <h3 class="pricing-plan">Enterprise</h3>
+                <div class="pricing-price">Custom</div>
+                <div class="pricing-period">contactar ventas</div>
+                
+                <ul class="pricing-features">
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Todo ilimitado
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Account Manager dedicado
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Integraciones custom
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        SLA garantizado
+                    </li>
+                    <li class="pricing-feature">
+                        <span class="check-icon">✓</span>
+                        Training personalizado
+                    </li>
+                </ul>
+                
+                <a href="#" class="btn btn-secondary" style="width: 100%;">Contactar</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-content">
+            <h2 class="cta-title">¿Listo para escalar tu marketing?</h2>
+            <p class="cta-subtitle">
+                Únete a miles de marcas e influencers que ya están creciendo con TUTUCA
+            </p>
+            
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary" style="padding: 1rem 3rem; font-size: 1.125rem;">
+                    Crear Cuenta Gratis
+                </a>
+                <a href="#" class="btn btn-secondary" style="padding: 1rem 3rem; font-size: 1.125rem;">
+                    Agendar Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-logo">TUTUCA</div>
+                <p class="footer-description">
+                    La plataforma líder de influencer marketing en LATAM. 
+                    Conectando marcas con voces auténticas desde 2023.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link">f</a>
+                    <a href="#" class="social-link">𝕏</a>
+                    <a href="#" class="social-link">in</a>
+                    <a href="#" class="social-link">@</a>
+                </div>
+            </div>
+            
+            <div class="footer-column">
+                <h4 class="footer-title">Producto</h4>
+                <a href="#" class="footer-link">Características</a>
+                <a href="#" class="footer-link">Precios</a>
+                <a href="#" class="footer-link">API</a>
+                <a href="#" class="footer-link">Integraciones</a>
+            </div>
+            
+            <div class="footer-column">
+                <h4 class="footer-title">Empresa</h4>
+                <a href="#" class="footer-link">Sobre Nosotros</a>
+                <a href="#" class="footer-link">Blog</a>
+                <a href="#" class="footer-link">Carreras</a>
+                <a href="#" class="footer-link">Contacto</a>
+            </div>
+            
+            <div class="footer-column">
+                <h4 class="footer-title">Legal</h4>
+                <a href="#" class="footer-link">Términos</a>
+                <a href="#" class="footer-link">Privacidad</a>
+                <a href="#" class="footer-link">Cookies</a>
+                <a href="#" class="footer-link">GDPR</a>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>© 2025 TUTUCA. Todos los derechos reservados. Hecho con 💚 en LATAM</p>
+        </div>
+    </footer>
+
+    <script>
+        // Header scroll effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('header');
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease forwards';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards
+        document.querySelectorAll('.feature-card, .step, .testimonial-card, .pricing-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Counter animation for stats
+        function animateCounter(element, target) {
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = element.textContent.includes('+') ? target + '+' : 
+                                         element.textContent.includes('x') ? target + 'x' :
+                                         element.textContent.includes('K') ? target + 'K+' :
+                                         element.textContent.includes('M') ? '$' + target + 'M+' : target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 20);
+        }
+
+        // Animate stats when in view
+        const statsObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const value = entry.target.textContent;
+                    const number = parseFloat(value.replace(/[^0-9.]/g, ''));
+                    animateCounter(entry.target, number);
+                    statsObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.stat-value').forEach(stat => {
+            statsObserver.observe(stat);
+        });
+    </script>
+</body>
+</html>
