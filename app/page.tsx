@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { supabase } from './lib/supabase'
 import { useRouter } from 'next/navigation'
 
@@ -336,7 +336,7 @@ export default function HomePage() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <div className="text-3xl text-green-400 mb-4">"</div>
+              <div className="text-3xl text-green-400 mb-4">&ldquo;</div>
               <p className="text-gray-200 leading-relaxed mb-6">
                 TUTUCA transformó completamente nuestra estrategia de marketing. 
                 El ROI aumentó 4x y ahorramos 20 horas semanales en gestión.
@@ -354,7 +354,7 @@ export default function HomePage() {
             </div>
             
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <div className="text-3xl text-green-400 mb-4">"</div>
+              <div className="text-3xl text-green-400 mb-4">&ldquo;</div>
               <p className="text-gray-200 leading-relaxed mb-6">
                 Como influencer, TUTUCA me conectó con marcas perfectas para mi audiencia. 
                 Mis ingresos crecieron 300% en 6 meses.
@@ -372,7 +372,7 @@ export default function HomePage() {
             </div>
             
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <div className="text-3xl text-green-400 mb-4">"</div>
+              <div className="text-3xl text-green-400 mb-4">&ldquo;</div>
               <p className="text-gray-200 leading-relaxed mb-6">
                 La mejor plataforma de influencer marketing. Interface intuitiva, 
                 soporte excepcional y resultados medibles.

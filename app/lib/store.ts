@@ -9,13 +9,30 @@ interface User {
   avatar_url?: string
 }
 
+interface Campaign {
+  id: string
+  title: string
+  description: string
+  budget: number
+  status: string
+  created_at: string
+}
+
+interface Message {
+  id: string
+  content: string
+  sender_id: string
+  receiver_id: string
+  created_at: string
+}
+
 interface AppState {
   user: User | null
   setUser: (user: User | null) => void
-  campaigns: any[]
-  setCampaigns: (campaigns: any[]) => void
-  messages: any[]
-  setMessages: (messages: any[]) => void
+  campaigns: Campaign[]
+  setCampaigns: (campaigns: Campaign[]) => void
+  messages: Message[]
+  setMessages: (messages: Message[]) => void
 }
 
 export const useStore = create<AppState>((set) => ({
