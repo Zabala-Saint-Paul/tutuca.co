@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
 import { useRouter } from 'next/navigation'
 
@@ -75,542 +75,678 @@ export default function HomePage() {
     }
   }
 
+  useEffect(() => {
+    // Header scroll effect
+    const handleScroll = () => {
+      const header = document.getElementById('header')
+      if (window.scrollY > 50) {
+        header?.classList.add('scrolled')
+      } else {
+        header?.classList.remove('scrolled')
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <>
+      <style jsx global>{`
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+          background: #000000;
+          color: #ffffff;
+          overflow-x: hidden;
+        }
+
+        html {
+          scroll-behavior: smooth;
+        }
+
+        .header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          background: rgba(0, 0, 0, 0.9);
+          backdrop-filter: blur(20px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          z-index: 1000;
+          transition: all 0.3s ease;
+        }
+
+        .header.scrolled {
+          background: rgba(0, 0, 0, 0.95);
+          padding: 0.5rem 0;
+        }
+
+        .nav-container {
+          max-width: 1400px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem 2rem;
+        }
+
+        .logo {
+          font-size: 2rem;
+          font-weight: 900;
+          background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+          transform: scale(1.05);
+        }
+
+        .nav-links {
+          display: flex;
+          gap: 2rem;
+          align-items: center;
+        }
+
+        .nav-link {
+          color: #999;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          position: relative;
+        }
+
+        .nav-link:hover {
+          color: #00ff88;
+        }
+
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: -5px;
+          left: 0;
+          width: 0;
+          height: 2px;
+          background: #00ff88;
+          transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+          width: 100%;
+        }
+
+        .nav-buttons {
+          display: flex;
+          gap: 1rem;
+        }
+
+        .btn {
+          padding: 0.75rem 1.5rem;
+          border-radius: 12px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          text-decoration: none;
+          display: inline-block;
+          border: none;
+        }
+
+        .btn-secondary {
+          background: transparent;
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: #00ff88;
+        }
+
+        .btn-primary {
+          background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+          color: #000;
+        }
+
+        .btn-primary:hover {
+          transform: scale(1.05);
+          box-shadow: 0 10px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .hero {
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          padding: 6rem 2rem 2rem;
+          background: radial-gradient(circle at 20% 50%, rgba(0, 255, 136, 0.1) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 80%, rgba(0, 204, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-content {
+          max-width: 1200px;
+          text-align: center;
+          z-index: 1;
+        }
+
+        .hero-badge {
+          display: inline-block;
+          background: rgba(0, 255, 136, 0.1);
+          border: 1px solid rgba(0, 255, 136, 0.3);
+          color: #00ff88;
+          padding: 0.5rem 1rem;
+          border-radius: 30px;
+          font-size: 0.875rem;
+          font-weight: 600;
+          margin-bottom: 2rem;
+          animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+          0%, 100% {
+            transform: scale(1);
+          }
+          50% {
+            transform: scale(1.05);
+          }
+        }
+
+        .hero-title {
+          font-size: 4rem;
+          font-weight: 900;
+          margin-bottom: 1.5rem;
+          line-height: 1.1;
+          background: linear-gradient(135deg, #ffffff 0%, #999999 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: fadeInUp 0.8s ease;
+        }
+
+        .hero-highlight {
+          background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        @keyframes fadeInUp {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .hero-subtitle {
+          font-size: 1.5rem;
+          color: #999;
+          margin-bottom: 3rem;
+          animation: fadeInUp 0.8s ease 0.2s both;
+        }
+
+        .hero-buttons {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          margin-bottom: 4rem;
+          animation: fadeInUp 0.8s ease 0.4s both;
+        }
+
+        .hero-stats {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+          gap: 2rem;
+          max-width: 600px;
+          margin: 0 auto;
+          animation: fadeInUp 0.8s ease 0.6s both;
+        }
+
+        .stat {
+          text-align: center;
+        }
+
+        .stat-value {
+          font-size: 2.5rem;
+          font-weight: bold;
+          color: #00ff88;
+          margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+          color: #666;
+          font-size: 0.875rem;
+        }
+
+        .floating-cards {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          top: 0;
+          left: 0;
+          pointer-events: none;
+        }
+
+        .floating-card {
+          position: absolute;
+          background: rgba(255, 255, 255, 0.03);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          padding: 1.5rem;
+          animation: float 20s infinite ease-in-out;
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0) rotate(0deg);
+          }
+          25% {
+            transform: translateY(-20px) rotate(2deg);
+          }
+          75% {
+            transform: translateY(20px) rotate(-2deg);
+          }
+        }
+
+        .floating-card:nth-child(1) {
+          top: 20%;
+          left: 10%;
+          animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+          top: 60%;
+          right: 10%;
+          animation-delay: 5s;
+        }
+
+        .floating-card:nth-child(3) {
+          bottom: 20%;
+          left: 15%;
+          animation-delay: 10s;
+        }
+
+        .features {
+          padding: 6rem 2rem;
+          background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.02) 50%, transparent 100%);
+        }
+
+        .section-header {
+          text-align: center;
+          max-width: 800px;
+          margin: 0 auto 4rem;
+        }
+
+        .section-badge {
+          display: inline-block;
+          background: rgba(0, 204, 255, 0.1);
+          border: 1px solid rgba(0, 204, 255, 0.3);
+          color: #00ccff;
+          padding: 0.5rem 1rem;
+          border-radius: 30px;
+          font-size: 0.875rem;
+          font-weight: 600;
+          margin-bottom: 1rem;
+        }
+
+        .section-title {
+          font-size: 3rem;
+          font-weight: 800;
+          margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+          color: #999;
+          font-size: 1.125rem;
+        }
+
+        .features-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2rem;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .feature-card {
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 24px;
+          padding: 2rem;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .feature-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: linear-gradient(90deg, #00ff88, #00ccff);
+          transform: translateX(-100%);
+          transition: transform 0.5s ease;
+        }
+
+        .feature-card:hover::before {
+          transform: translateX(0);
+        }
+
+        .feature-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(0, 255, 136, 0.3);
+          box-shadow: 0 20px 40px rgba(0, 255, 136, 0.1);
+        }
+
+        .feature-icon {
+          font-size: 3rem;
+          margin-bottom: 1rem;
+        }
+
+        .feature-title {
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-bottom: 0.75rem;
+        }
+
+        .feature-description {
+          color: #999;
+          line-height: 1.6;
+        }
+
+        .mobile-menu-toggle {
+          display: none;
+          background: transparent;
+          border: none;
+          color: white;
+          font-size: 1.5rem;
+          cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+          .nav-links {
+            display: none;
+          }
+          
+          .mobile-menu-toggle {
+            display: block;
+          }
+          
+          .hero-title {
+            font-size: 2.5rem;
+          }
+          
+          .hero-subtitle {
+            font-size: 1.125rem;
+          }
+          
+          .hero-buttons {
+            flex-direction: column;
+          }
+          
+          .features-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      `}</style>
+
       {/* Header */}
-      <header className="fixed top-0 left-0 right-0 bg-black/90 backdrop-blur-xl border-b border-white/10 z-50 transition-all duration-300">
-        <nav className="max-w-7xl mx-auto flex justify-between items-center px-8 py-4">
-          <div className="text-3xl font-black bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent cursor-pointer hover:scale-105 transition-all">
-            TUTUCA
+      <header className="header" id="header">
+        <nav className="nav-container">
+          <div className="logo">TUTUCA</div>
+          
+          <div className="nav-links">
+            <a href="#features" className="nav-link">Características</a>
+            <a href="#how-it-works" className="nav-link">Cómo Funciona</a>
+            <a href="#pricing" className="nav-link">Precios</a>
+            <a href="#testimonials" className="nav-link">Testimonios</a>
           </div>
           
-          <div className="hidden md:flex gap-8 items-center">
-            <a href="#features" className="text-gray-400 hover:text-green-400 transition-colors relative group">
-              Características
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-400 transition-all group-hover:w-full"></span>
-            </a>
-            <a href="#how-it-works" className="text-gray-400 hover:text-green-400 transition-colors relative group">
-              Cómo Funciona
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-400 transition-all group-hover:w-full"></span>
-            </a>
-            <a href="#pricing" className="text-gray-400 hover:text-green-400 transition-colors relative group">
-              Precios
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-400 transition-all group-hover:w-full"></span>
-            </a>
-            <a href="#testimonials" className="text-gray-400 hover:text-green-400 transition-colors relative group">
-              Testimonios
-              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-green-400 transition-all group-hover:w-full"></span>
-            </a>
-          </div>
-          
-          <div className="flex gap-4">
+          <div className="nav-buttons">
             <button 
               onClick={() => setUserType('brand')}
-              className="px-6 py-3 rounded-xl font-semibold cursor-pointer transition-all border border-white/20 text-white hover:bg-white/10 hover:border-green-400"
+              className="btn btn-secondary"
             >
               Iniciar Sesión
             </button>
             <button 
               onClick={() => setUserType('influencer')}
-              className="px-6 py-3 rounded-xl font-semibold cursor-pointer transition-all bg-gradient-to-r from-green-400 to-cyan-400 text-black hover:scale-105 hover:shadow-lg hover:shadow-green-400/40"
+              className="btn btn-primary"
             >
               Empezar Gratis
             </button>
           </div>
           
-          <button className="md:hidden text-white text-2xl">☰</button>
+          <button className="mobile-menu-toggle">☰</button>
         </nav>
       </header>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center relative pt-24 px-8 bg-gradient-radial from-green-500/10 via-transparent to-cyan-500/10">
-        {/* Floating Cards */}
-        <div className="absolute inset-0 pointer-events-none">
-          <div className="absolute top-1/5 left-1/12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 animate-float">
-            <div className="text-3xl mb-2">📸</div>
-            <div className="font-semibold text-lg">+2.5M</div>
-            <div className="text-gray-400 text-sm">Contenidos</div>
+      <section className="hero">
+        <div className="floating-cards">
+          <div className="floating-card">
+            <div style={{fontSize: '2rem', marginBottom: '0.5rem'}}>📸</div>
+            <div style={{fontWeight: '600'}}>+2.5M</div>
+            <div style={{color: '#666', fontSize: '0.875rem'}}>Contenidos</div>
           </div>
           
-          <div className="absolute top-3/5 right-1/12 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 animate-float" style={{animationDelay: '5s'}}>
-            <div className="text-3xl mb-2">⭐</div>
-            <div className="font-semibold text-lg">4.9/5</div>
-            <div className="text-gray-400 text-sm">Rating</div>
+          <div className="floating-card">
+            <div style={{fontSize: '2rem', marginBottom: '0.5rem'}}>⭐</div>
+            <div style={{fontWeight: '600'}}>4.9/5</div>
+            <div style={{color: '#666', fontSize: '0.875rem'}}>Rating</div>
           </div>
           
-          <div className="absolute bottom-1/5 left-1/8 bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 animate-float" style={{animationDelay: '10s'}}>
-            <div className="text-3xl mb-2">🚀</div>
-            <div className="font-semibold text-lg">15K+</div>
-            <div className="text-gray-400 text-sm">Campañas</div>
+          <div className="floating-card">
+            <div style={{fontSize: '2rem', marginBottom: '0.5rem'}}>🚀</div>
+            <div style={{fontWeight: '600'}}>15K+</div>
+            <div style={{color: '#666', fontSize: '0.875rem'}}>Campañas</div>
           </div>
         </div>
         
-        <div className="max-w-6xl text-center z-10">
-            <div className="inline-block bg-green-400/10 border border-green-400/30 text-green-400 px-4 py-2 rounded-full text-sm font-semibold mb-8 animate-pulse">
-              🔥 #1 EN LATAM - DEPLOYED
-            </div>
+        <div className="hero-content">
+          <div className="hero-badge">🔥 #1 EN LATAM</div>
           
-          <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
-            Conectamos <span className="bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">Marcas</span><br />
-            con <span className="bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">Influencers</span> Auténticos
+          <h1 className="hero-title">
+            Conectamos <span className="hero-highlight">Marcas</span><br />
+            con <span className="hero-highlight">Influencers</span> Auténticos
           </h1>
           
-          <p className="text-xl text-gray-300 mb-12 max-w-4xl mx-auto">
+          <p className="hero-subtitle">
             La plataforma todo-en-uno para gestionar campañas de influencer marketing<br />
             con resultados medibles y ROI garantizado
           </p>
           
-          <div className="flex gap-4 justify-center mb-16">
+          <div className="hero-buttons">
             <button 
               onClick={() => setUserType('brand')}
-              className="px-8 py-4 bg-gradient-to-r from-green-400 to-cyan-400 text-black font-bold rounded-xl text-lg hover:scale-105 transition-all hover:shadow-lg hover:shadow-green-400/40"
+              className="btn btn-primary"
+              style={{padding: '1rem 2rem', fontSize: '1.125rem'}}
             >
               Empezar Gratis →
             </button>
-            <button className="px-8 py-4 bg-transparent border border-white/20 text-white font-bold rounded-xl text-lg hover:bg-white/10 hover:border-green-400 transition-all">
+            <button className="btn btn-secondary" style={{padding: '1rem 2rem', fontSize: '1.125rem'}}>
               Ver Demo
             </button>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 max-w-2xl mx-auto">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-green-400 mb-2">10K+</div>
-              <div className="text-gray-400 text-sm">Influencers Verificados</div>
+          <div className="hero-stats">
+            <div className="stat">
+              <div className="stat-value">10K+</div>
+              <div className="stat-label">Influencers Verificados</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-green-400 mb-2">500+</div>
-              <div className="text-gray-400 text-sm">Marcas Activas</div>
+            <div className="stat">
+              <div className="stat-value">500+</div>
+              <div className="stat-label">Marcas Activas</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-green-400 mb-2">$5M+</div>
-              <div className="text-gray-400 text-sm">Pagos Procesados</div>
+            <div className="stat">
+              <div className="stat-value">$5M+</div>
+              <div className="stat-label">Pagos Procesados</div>
             </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-green-400 mb-2">4.2x</div>
-              <div className="text-gray-400 text-sm">ROI Promedio</div>
+            <div className="stat">
+              <div className="stat-value">4.2x</div>
+              <div className="stat-label">ROI Promedio</div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-24 px-8 bg-gradient-to-b from-transparent via-green-500/5 to-transparent">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-              CARACTERÍSTICAS
-            </div>
-            <h2 className="text-5xl font-bold mb-4">Todo lo que necesitas en un solo lugar</h2>
-            <p className="text-gray-400 text-lg">Herramientas poderosas para marcas e influencers</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 transition-all hover:-translate-y-2 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-400/10 relative overflow-hidden group">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-cyan-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-              <div className="text-5xl mb-4">🔍</div>
-              <h3 className="text-2xl font-semibold mb-3">Discovery Inteligente</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Encuentra influencers perfectos con IA. Filtros avanzados por nicho, 
-                engagement, ubicación y más. Match del 95% garantizado.
-              </p>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 transition-all hover:-translate-y-2 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-400/10 relative overflow-hidden group">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-cyan-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-              <div className="text-5xl mb-4">📊</div>
-              <h3 className="text-2xl font-semibold mb-3">Analytics en Tiempo Real</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Métricas detalladas de cada campaña. ROI, alcance, engagement y 
-                conversiones actualizadas al instante.
-              </p>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 transition-all hover:-translate-y-2 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-400/10 relative overflow-hidden group">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-cyan-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-              <div className="text-5xl mb-4">💬</div>
-              <h3 className="text-2xl font-semibold mb-3">Mensajería Integrada</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Comunícate directamente con influencers. Chat en tiempo real, 
-                compartir archivos y negociación transparente.
-              </p>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 transition-all hover:-translate-y-2 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-400/10 relative overflow-hidden group">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-cyan-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-              <div className="text-5xl mb-4">💳</div>
-              <h3 className="text-2xl font-semibold mb-3">Pagos Seguros</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Sistema de pagos integrado con escrow. Múltiples métodos de pago 
-                y facturación automática.
-              </p>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 transition-all hover:-translate-y-2 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-400/10 relative overflow-hidden group">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-cyan-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-              <div className="text-5xl mb-4">🚀</div>
-              <h3 className="text-2xl font-semibold mb-3">Gestión de Campañas</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Crea, gestiona y escala campañas fácilmente. Workflows automatizados 
-                y aprobaciones rápidas.
-              </p>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 transition-all hover:-translate-y-2 hover:border-green-400/30 hover:shadow-lg hover:shadow-green-400/10 relative overflow-hidden group">
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-green-400 to-cyan-400 transform -translate-x-full group-hover:translate-x-0 transition-transform duration-500"></div>
-              <div className="text-5xl mb-4">⭐</div>
-              <h3 className="text-2xl font-semibold mb-3">Reviews Verificados</h3>
-              <p className="text-gray-400 leading-relaxed">
-                Sistema de calificaciones bidireccional. Construye confianza 
-                con feedback transparente.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* How It Works Section */}
-      <section id="how-it-works" className="py-24 px-8">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-green-400/10 border border-green-400/30 text-green-400 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-              PROCESO SIMPLE
-            </div>
-            <h2 className="text-5xl font-bold mb-4">Cómo Funciona TUTUCA</h2>
-            <p className="text-gray-400 text-lg">De la idea a resultados en 4 simples pasos</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-green-400/20 to-cyan-400/20 border-2 border-green-400 rounded-full flex items-center justify-center text-3xl font-bold text-green-400 mx-auto mb-6 hover:scale-110 hover:rotate-12 transition-all duration-300">
-                1
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Crea tu Campaña</h3>
-              <p className="text-gray-400">
-                Define objetivos, presupuesto y requisitos en minutos
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-green-400/20 to-cyan-400/20 border-2 border-green-400 rounded-full flex items-center justify-center text-3xl font-bold text-green-400 mx-auto mb-6 hover:scale-110 hover:rotate-12 transition-all duration-300">
-                2
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Encuentra Influencers</h3>
-              <p className="text-gray-400">
-                Recibe aplicaciones o busca en nuestra base de +10K creators
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-green-400/20 to-cyan-400/20 border-2 border-green-400 rounded-full flex items-center justify-center text-3xl font-bold text-green-400 mx-auto mb-6 hover:scale-110 hover:rotate-12 transition-all duration-300">
-                3
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Colabora</h3>
-              <p className="text-gray-400">
-                Gestiona contenido, comunicación y pagos en un solo lugar
-              </p>
-            </div>
-            
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-green-400/20 to-cyan-400/20 border-2 border-green-400 rounded-full flex items-center justify-center text-3xl font-bold text-green-400 mx-auto mb-6 hover:scale-110 hover:rotate-12 transition-all duration-300">
-                4
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Mide Resultados</h3>
-              <p className="text-gray-400">
-                Analytics detallados y ROI en tiempo real
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Testimonials Section */}
-      <section id="testimonials" className="py-24 px-8 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-cyan-400/10 border border-cyan-400/30 text-cyan-400 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-              TESTIMONIOS
-            </div>
-            <h2 className="text-5xl font-bold mb-4">Historias de Éxito</h2>
-            <p className="text-gray-400 text-lg">Lo que dicen nuestros usuarios</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <div className="text-3xl text-green-400 mb-4">&ldquo;</div>
-              <p className="text-gray-200 leading-relaxed mb-6">
-                TUTUCA transformó completamente nuestra estrategia de marketing. 
-                El ROI aumentó 4x y ahorramos 20 horas semanales en gestión.
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-cyan-400 rounded-full flex items-center justify-center font-bold text-black">
-                  MG
-                </div>
-                <div className="flex-1">
-                  <div className="font-semibold">María González</div>
-                  <div className="text-gray-400 text-sm">CMO en Fashion Brand</div>
-                </div>
-                <div className="text-yellow-400">⭐⭐⭐⭐⭐</div>
-              </div>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <div className="text-3xl text-green-400 mb-4">&ldquo;</div>
-              <p className="text-gray-200 leading-relaxed mb-6">
-                Como influencer, TUTUCA me conectó con marcas perfectas para mi audiencia. 
-                Mis ingresos crecieron 300% en 6 meses.
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-cyan-400 rounded-full flex items-center justify-center font-bold text-black">
-                  CL
-                </div>
-                <div className="flex-1">
-                  <div className="font-semibold">Carlos López</div>
-                  <div className="text-gray-400 text-sm">@carloslifestyle • 120K</div>
-                </div>
-                <div className="text-yellow-400">⭐⭐⭐⭐⭐</div>
-              </div>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8">
-              <div className="text-3xl text-green-400 mb-4">&ldquo;</div>
-              <p className="text-gray-200 leading-relaxed mb-6">
-                La mejor plataforma de influencer marketing. Interface intuitiva, 
-                soporte excepcional y resultados medibles.
-              </p>
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-gradient-to-r from-green-400 to-cyan-400 rounded-full flex items-center justify-center font-bold text-black">
-                  AP
-                </div>
-                <div className="flex-1">
-                  <div className="font-semibold">Ana Pérez</div>
-                  <div className="text-gray-400 text-sm">Directora en TechCorp</div>
-                </div>
-                <div className="text-yellow-400">⭐⭐⭐⭐⭐</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section id="pricing" className="py-24 px-8">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <div className="inline-block bg-green-400/10 border border-green-400/30 text-green-400 px-4 py-2 rounded-full text-sm font-semibold mb-4">
-              PRECIOS
-            </div>
-            <h2 className="text-5xl font-bold mb-4">Planes para cada necesidad</h2>
-            <p className="text-gray-400 text-lg">Transparente, sin sorpresas</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 text-center transition-all hover:-translate-y-2 hover:border-green-400/50">
-              <h3 className="text-2xl font-semibold mb-2">Starter</h3>
-              <div className="text-5xl font-bold text-green-400 mb-2">$99</div>
-              <div className="text-gray-400 mb-8">por mes</div>
-              
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Hasta 5 campañas activas
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  20 influencers por mes
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Analytics básicos
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Soporte por email
-                </li>
-              </ul>
-              
-              <button className="w-full py-3 bg-transparent border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 hover:border-green-400 transition-all">
-                Empezar
-              </button>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-green-400 rounded-3xl p-8 text-center transition-all hover:-translate-y-2 hover:border-green-400/50 relative scale-105">
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-green-400 to-cyan-400 text-black px-4 py-1 rounded-full text-xs font-bold">
-                POPULAR
-              </div>
-              <h3 className="text-2xl font-semibold mb-2">Professional</h3>
-              <div className="text-5xl font-bold text-green-400 mb-2">$299</div>
-              <div className="text-gray-400 mb-8">por mes</div>
-              
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Campañas ilimitadas
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  100 influencers por mes
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Analytics avanzados
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  API access
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Soporte prioritario
-                </li>
-              </ul>
-              
-              <button className="w-full py-3 bg-gradient-to-r from-green-400 to-cyan-400 text-black font-bold rounded-xl hover:scale-105 transition-all hover:shadow-lg hover:shadow-green-400/40">
-                Empezar
-              </button>
-            </div>
-            
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-3xl p-8 text-center transition-all hover:-translate-y-2 hover:border-green-400/50">
-              <h3 className="text-2xl font-semibold mb-2">Enterprise</h3>
-              <div className="text-5xl font-bold text-green-400 mb-2">Custom</div>
-              <div className="text-gray-400 mb-8">contactar ventas</div>
-              
-              <ul className="space-y-4 mb-8">
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Todo ilimitado
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Account Manager dedicado
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Integraciones custom
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  SLA garantizado
-                </li>
-                <li className="flex items-center justify-center gap-2">
-                  <span className="text-green-400">✓</span>
-                  Training personalizado
-                </li>
-              </ul>
-              
-              <button className="w-full py-3 bg-transparent border border-white/20 text-white font-bold rounded-xl hover:bg-white/10 hover:border-green-400 transition-all">
-                Contactar
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 px-8 text-center bg-gradient-to-r from-green-500/5 to-cyan-500/5">
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-5xl font-bold mb-4 bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">
-            ¿Listo para escalar tu marketing?
-          </h2>
-          <p className="text-gray-400 text-xl mb-8">
-            Únete a miles de marcas e influencers que ya están creciendo con TUTUCA
+      <section className="features" id="features">
+        <div className="section-header">
+          <div className="section-badge">CARACTERÍSTICAS</div>
+          <h2 className="section-title">Todo lo que necesitas en un solo lugar</h2>
+          <p className="section-subtitle">
+            Herramientas poderosas para marcas e influencers
           </p>
+        </div>
+        
+        <div className="features-grid">
+          <div className="feature-card">
+            <div className="feature-icon">🔍</div>
+            <h3 className="feature-title">Discovery Inteligente</h3>
+            <p className="feature-description">
+              Encuentra influencers perfectos con IA. Filtros avanzados por nicho, 
+              engagement, ubicación y más. Match del 95% garantizado.
+            </p>
+          </div>
           
-          <div className="flex gap-4 justify-center flex-wrap">
-            <button 
-              onClick={() => setUserType('brand')}
-              className="px-12 py-4 bg-gradient-to-r from-green-400 to-cyan-400 text-black font-bold rounded-xl text-lg hover:scale-105 transition-all hover:shadow-lg hover:shadow-green-400/40"
-            >
-              Crear Cuenta Gratis
-            </button>
-            <button className="px-12 py-4 bg-transparent border border-white/20 text-white font-bold rounded-xl text-lg hover:bg-white/10 hover:border-green-400 transition-all">
-              Agendar Demo
-            </button>
+          <div className="feature-card">
+            <div className="feature-icon">📊</div>
+            <h3 className="feature-title">Analytics en Tiempo Real</h3>
+            <p className="feature-description">
+              Métricas detalladas de cada campaña. ROI, alcance, engagement y 
+              conversiones actualizadas al instante.
+            </p>
+          </div>
+          
+          <div className="feature-card">
+            <div className="feature-icon">💬</div>
+            <h3 className="feature-title">Mensajería Integrada</h3>
+            <p className="feature-description">
+              Comunícate directamente con influencers. Chat en tiempo real, 
+              compartir archivos y negociación transparente.
+            </p>
+          </div>
+          
+          <div className="feature-card">
+            <div className="feature-icon">💳</div>
+            <h3 className="feature-title">Pagos Seguros</h3>
+            <p className="feature-description">
+              Sistema de pagos integrado con escrow. Múltiples métodos de pago 
+              y facturación automática.
+            </p>
+          </div>
+          
+          <div className="feature-card">
+            <div className="feature-icon">🚀</div>
+            <h3 className="feature-title">Gestión de Campañas</h3>
+            <p className="feature-description">
+              Crea, gestiona y escala campañas fácilmente. Workflows automatizados 
+              y aprobaciones rápidas.
+            </p>
+          </div>
+          
+          <div className="feature-card">
+            <div className="feature-icon">⭐</div>
+            <h3 className="feature-title">Reviews Verificados</h3>
+            <p className="feature-description">
+              Sistema de calificaciones bidireccional. Construye confianza 
+              con feedback transparente.
+            </p>
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="py-16 px-8 border-t border-white/10">
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-            <div className="md:col-span-2">
-              <div className="text-2xl font-black bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent mb-4">
-                TUTUCA
-              </div>
-              <p className="text-gray-400 leading-relaxed mb-6">
-                La plataforma líder de influencer marketing en LATAM. 
-                Conectando marcas con voces auténticas desde 2023.
-              </p>
-              <div className="flex gap-4">
-                <a href="#" className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:bg-green-400/20 hover:border-green-400 hover:text-green-400 transition-all">
-                  f
-                </a>
-                <a href="#" className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:bg-green-400/20 hover:border-green-400 hover:text-green-400 transition-all">
-                  𝕏
-                </a>
-                <a href="#" className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:bg-green-400/20 hover:border-green-400 hover:text-green-400 transition-all">
-                  in
-                </a>
-                <a href="#" className="w-10 h-10 bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-gray-400 hover:bg-green-400/20 hover:border-green-400 hover:text-green-400 transition-all">
-                  @
-                </a>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Producto</h4>
-              <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-green-400 transition-colors">Características</a>
-                <a href="#" className="block text-gray-400 hover:text-green-400 transition-colors">Precios</a>
-                <a href="#" className="block text-gray-400 hover:text-green-400 transition-colors">API</a>
-                <a href="#" className="block text-gray-400 hover:text-green-400 transition-colors">Integraciones</a>
-              </div>
-            </div>
-            
-            <div>
-              <h4 className="font-semibold mb-4">Empresa</h4>
-              <div className="space-y-2">
-                <a href="#" className="block text-gray-400 hover:text-green-400 transition-colors">Sobre Nosotros</a>
-                <a href="#" className="block text-gray-400 hover:text-green-400 transition-colors">Blog</a>
-                <a href="#" className="block text-gray-400 hover:text-green-400 transition-colors">Carreras</a>
-                <a href="#" className="block text-gray-400 hover:text-green-400 transition-colors">Contacto</a>
-              </div>
-            </div>
-          </div>
-          
-          <div className="text-center pt-8 border-t border-white/5 text-gray-400 text-sm">
-            <p>© 2025 TUTUCA. Todos los derechos reservados. Hecho con 💚 en LATAM</p>
-          </div>
-        </div>
-      </footer>
 
       {/* Auth Modal */}
       {userType && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-gray-900 border border-gray-800 rounded-2xl p-8 max-w-md w-full">
-            <h2 className="text-2xl font-bold mb-6 text-center">
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0, 0, 0, 0.5)',
+          backdropFilter: 'blur(10px)',
+          zIndex: 50,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '1rem'
+        }}>
+          <div style={{
+            backgroundColor: '#1a1a1a',
+            border: '1px solid #333',
+            borderRadius: '1rem',
+            padding: '2rem',
+            maxWidth: '28rem',
+            width: '100%'
+          }}>
+            <h2 style={{
+              fontSize: '1.5rem',
+              fontWeight: 'bold',
+              marginBottom: '1.5rem',
+              textAlign: 'center'
+            }}>
               {userType === 'brand' ? 'Acceso para Marcas' : 'Acceso para Influencers'}
             </h2>
 
-            <form onSubmit={handleSignIn} className="space-y-4 mb-6">
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Email</label>
+            <form onSubmit={handleSignIn} style={{marginBottom: '1.5rem'}}>
+              <div style={{marginBottom: '1rem'}}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '0.875rem',
+                  color: '#999',
+                  marginBottom: '0.5rem'
+                }}>Email</label>
                 <input
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-green-500"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    backgroundColor: '#333',
+                    border: '1px solid #555',
+                    borderRadius: '0.5rem',
+                    color: 'white',
+                    outline: 'none'
+                  }}
                   required
                 />
               </div>
 
-              <div>
-                <label className="block text-sm text-gray-400 mb-2">Contraseña</label>
+              <div style={{marginBottom: '1rem'}}>
+                <label style={{
+                  display: 'block',
+                  fontSize: '0.875rem',
+                  color: '#999',
+                  marginBottom: '0.5rem'
+                }}>Contraseña</label>
                 <input
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-green-500"
+                  style={{
+                    width: '100%',
+                    padding: '0.75rem',
+                    backgroundColor: '#333',
+                    border: '1px solid #555',
+                    borderRadius: '0.5rem',
+                    color: 'white',
+                    outline: 'none'
+                  }}
                   required
                 />
               </div>
@@ -618,31 +754,62 @@ export default function HomePage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-3 bg-gradient-to-r from-green-500 to-cyan-500 text-black font-bold rounded-lg hover:scale-105 transition disabled:opacity-50"
+                style={{
+                  width: '100%',
+                  padding: '0.75rem',
+                  background: 'linear-gradient(135deg, #00ff88 0%, #00ccff 100%)',
+                  color: 'black',
+                  fontWeight: 'bold',
+                  borderRadius: '0.5rem',
+                  border: 'none',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s ease',
+                  opacity: loading ? 0.5 : 1
+                }}
               >
                 {loading ? 'Iniciando...' : 'Iniciar Sesión'}
               </button>
             </form>
 
-            <div className="text-center text-gray-400 mb-4">o</div>
+            <div style={{textAlign: 'center', color: '#999', marginBottom: '1rem'}}>o</div>
 
             <button
               onClick={handleSignUp}
               disabled={loading}
-              className="w-full py-3 bg-gray-800 hover:bg-gray-700 rounded-lg transition disabled:opacity-50"
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                backgroundColor: '#333',
+                color: 'white',
+                fontWeight: 'bold',
+                borderRadius: '0.5rem',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                opacity: loading ? 0.5 : 1,
+                marginBottom: '1rem'
+              }}
             >
               Crear Cuenta Nueva
             </button>
             
             <button
               onClick={() => setUserType(null)}
-              className="w-full mt-4 py-2 text-gray-400 hover:text-white transition"
+              style={{
+                width: '100%',
+                padding: '0.5rem',
+                backgroundColor: 'transparent',
+                color: '#999',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease'
+              }}
             >
               Cerrar
             </button>
           </div>
         </div>
       )}
-    </div>
+    </>
   )
 }
