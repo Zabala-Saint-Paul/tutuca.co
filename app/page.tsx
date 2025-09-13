@@ -466,6 +466,333 @@ export default function HomePage() {
           line-height: 1.6;
         }
 
+        .how-it-works {
+          padding: 6rem 2rem;
+          position: relative;
+        }
+
+        .steps-container {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+          gap: 3rem;
+          max-width: 1200px;
+          margin: 0 auto;
+          position: relative;
+        }
+
+        .step {
+          text-align: center;
+          position: relative;
+        }
+
+        .step-number {
+          width: 80px;
+          height: 80px;
+          background: linear-gradient(135deg, rgba(0, 255, 136, 0.2), rgba(0, 204, 255, 0.2));
+          border: 2px solid #00ff88;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 2rem;
+          font-weight: bold;
+          color: #00ff88;
+          margin: 0 auto 1.5rem;
+          transition: all 0.3s ease;
+        }
+
+        .step:hover .step-number {
+          transform: scale(1.1) rotate(10deg);
+        }
+
+        .step-title {
+          font-size: 1.25rem;
+          font-weight: 600;
+          margin-bottom: 0.75rem;
+        }
+
+        .step-description {
+          color: #999;
+        }
+
+        .testimonials {
+          padding: 6rem 2rem;
+          background: linear-gradient(180deg, transparent 0%, rgba(0, 204, 255, 0.02) 50%, transparent 100%);
+        }
+
+        .testimonials-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2rem;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+
+        .testimonial-card {
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          padding: 2rem;
+          position: relative;
+        }
+
+        .testimonial-quote {
+          font-size: 2rem;
+          color: #00ff88;
+          margin-bottom: 1rem;
+        }
+
+        .testimonial-text {
+          color: #ccc;
+          line-height: 1.6;
+          margin-bottom: 1.5rem;
+        }
+
+        .testimonial-author {
+          display: flex;
+          align-items: center;
+          gap: 1rem;
+        }
+
+        .author-avatar {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          color: #000;
+        }
+
+        .author-info {
+          flex: 1;
+        }
+
+        .author-name {
+          font-weight: 600;
+          margin-bottom: 0.25rem;
+        }
+
+        .author-role {
+          color: #666;
+          font-size: 0.875rem;
+        }
+
+        .testimonial-rating {
+          color: #ffcc00;
+        }
+
+        .pricing {
+          padding: 6rem 2rem;
+        }
+
+        .pricing-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+          gap: 2rem;
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+
+        .pricing-card {
+          background: rgba(255, 255, 255, 0.02);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 24px;
+          padding: 2rem;
+          text-align: center;
+          position: relative;
+          transition: all 0.3s ease;
+        }
+
+        .pricing-card.featured {
+          border-color: #00ff88;
+          transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+          content: 'POPULAR';
+          position: absolute;
+          top: -12px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+          color: #000;
+          padding: 0.25rem 1rem;
+          border-radius: 20px;
+          font-size: 0.75rem;
+          font-weight: bold;
+        }
+
+        .pricing-card:hover {
+          transform: translateY(-10px);
+          border-color: rgba(0, 255, 136, 0.5);
+        }
+
+        .pricing-plan {
+          font-size: 1.5rem;
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+          font-size: 3rem;
+          font-weight: bold;
+          color: #00ff88;
+          margin-bottom: 0.5rem;
+        }
+
+        .pricing-period {
+          color: #666;
+          margin-bottom: 2rem;
+        }
+
+        .pricing-features {
+          list-style: none;
+          margin-bottom: 2rem;
+        }
+
+        .pricing-feature {
+          padding: 0.75rem 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 0.5rem;
+        }
+
+        .pricing-feature:last-child {
+          border-bottom: none;
+        }
+
+        .check-icon {
+          color: #00ff88;
+        }
+
+        .cta {
+          padding: 6rem 2rem;
+          text-align: center;
+          background: linear-gradient(135deg, rgba(0, 255, 136, 0.05) 0%, rgba(0, 204, 255, 0.05) 100%);
+        }
+
+        .cta-content {
+          max-width: 800px;
+          margin: 0 auto;
+        }
+
+        .cta-title {
+          font-size: 3rem;
+          font-weight: 800;
+          margin-bottom: 1rem;
+          background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .cta-subtitle {
+          color: #999;
+          font-size: 1.25rem;
+          margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .footer {
+          padding: 4rem 2rem 2rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+          max-width: 1200px;
+          margin: 0 auto;
+          display: grid;
+          grid-template-columns: 2fr 1fr 1fr 1fr;
+          gap: 3rem;
+          margin-bottom: 3rem;
+        }
+
+        .footer-brand {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .footer-logo {
+          font-size: 1.5rem;
+          font-weight: 900;
+          background: linear-gradient(135deg, #00ff88 0%, #00ccff 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+        }
+
+        .footer-description {
+          color: #666;
+          line-height: 1.6;
+        }
+
+        .social-links {
+          display: flex;
+          gap: 1rem;
+        }
+
+        .social-link {
+          width: 40px;
+          height: 40px;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #999;
+          text-decoration: none;
+          transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+          background: rgba(0, 255, 136, 0.2);
+          border-color: #00ff88;
+          color: #00ff88;
+          transform: scale(1.1);
+        }
+
+        .footer-column {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .footer-title {
+          font-weight: 600;
+          margin-bottom: 0.5rem;
+        }
+
+        .footer-link {
+          color: #666;
+          text-decoration: none;
+          transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+          color: #00ff88;
+        }
+
+        .footer-bottom {
+          text-align: center;
+          padding-top: 2rem;
+          border-top: 1px solid rgba(255, 255, 255, 0.05);
+          color: #666;
+          font-size: 0.875rem;
+        }
+
         .mobile-menu-toggle {
           display: none;
           background: transparent;
@@ -668,6 +995,302 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* How It Works Section */}
+      <section className="how-it-works" id="how-it-works">
+        <div className="section-header">
+          <div className="section-badge">PROCESO SIMPLE</div>
+          <h2 className="section-title">Cómo Funciona TUTUCA</h2>
+          <p className="section-subtitle">
+            De la idea a resultados en 4 simples pasos
+          </p>
+        </div>
+        
+        <div className="steps-container">
+          <div className="step">
+            <div className="step-number">1</div>
+            <h3 className="step-title">Crea tu Campaña</h3>
+            <p className="step-description">
+              Define objetivos, presupuesto y requisitos en minutos
+            </p>
+          </div>
+          
+          <div className="step">
+            <div className="step-number">2</div>
+            <h3 className="step-title">Encuentra Influencers</h3>
+            <p className="step-description">
+              Recibe aplicaciones o busca en nuestra base de +10K creators
+            </p>
+          </div>
+          
+          <div className="step">
+            <div className="step-number">3</div>
+            <h3 className="step-title">Colabora</h3>
+            <p className="step-description">
+              Gestiona contenido, comunicación y pagos en un solo lugar
+            </p>
+          </div>
+          
+          <div className="step">
+            <div className="step-number">4</div>
+            <h3 className="step-title">Mide Resultados</h3>
+            <p className="step-description">
+              Analytics detallados y ROI en tiempo real
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="testimonials" id="testimonials">
+        <div className="section-header">
+          <div className="section-badge">TESTIMONIOS</div>
+          <h2 className="section-title">Historias de Éxito</h2>
+          <p className="section-subtitle">
+            Lo que dicen nuestros usuarios
+          </p>
+        </div>
+        
+        <div className="testimonials-grid">
+          <div className="testimonial-card">
+            <div className="testimonial-quote">&ldquo;</div>
+            <p className="testimonial-text">
+              TUTUCA transformó completamente nuestra estrategia de marketing. 
+              El ROI aumentó 4x y ahorramos 20 horas semanales en gestión.
+            </p>
+            <div className="testimonial-author">
+              <div className="author-avatar">MG</div>
+              <div className="author-info">
+                <div className="author-name">María González</div>
+                <div className="author-role">CMO en Fashion Brand</div>
+              </div>
+              <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          
+          <div className="testimonial-card">
+            <div className="testimonial-quote">&ldquo;</div>
+            <p className="testimonial-text">
+              Como influencer, TUTUCA me conectó con marcas perfectas para mi audiencia. 
+              Mis ingresos crecieron 300% en 6 meses.
+            </p>
+            <div className="testimonial-author">
+              <div className="author-avatar">CL</div>
+              <div className="author-info">
+                <div className="author-name">Carlos López</div>
+                <div className="author-role">@carloslifestyle • 120K</div>
+              </div>
+              <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+          
+          <div className="testimonial-card">
+            <div className="testimonial-quote">&ldquo;</div>
+            <p className="testimonial-text">
+              La mejor plataforma de influencer marketing. Interface intuitiva, 
+              soporte excepcional y resultados medibles.
+            </p>
+            <div className="testimonial-author">
+              <div className="author-avatar">AP</div>
+              <div className="author-info">
+                <div className="author-name">Ana Pérez</div>
+                <div className="author-role">Directora en TechCorp</div>
+              </div>
+              <div className="testimonial-rating">⭐⭐⭐⭐⭐</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing Section */}
+      <section className="pricing" id="pricing">
+        <div className="section-header">
+          <div className="section-badge">PRECIOS</div>
+          <h2 className="section-title">Planes para cada necesidad</h2>
+          <p className="section-subtitle">
+            Transparente, sin sorpresas
+          </p>
+        </div>
+        
+        <div className="pricing-grid">
+          <div className="pricing-card">
+            <h3 className="pricing-plan">Starter</h3>
+            <div className="pricing-price">$99</div>
+            <div className="pricing-period">por mes</div>
+            
+            <ul className="pricing-features">
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Hasta 5 campañas activas
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                20 influencers por mes
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Analytics básicos
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Soporte por email
+              </li>
+            </ul>
+            
+            <button 
+              onClick={() => setUserType('brand')}
+              className="btn btn-secondary"
+              style={{width: '100%'}}
+            >
+              Empezar
+            </button>
+          </div>
+          
+          <div className="pricing-card featured">
+            <h3 className="pricing-plan">Professional</h3>
+            <div className="pricing-price">$299</div>
+            <div className="pricing-period">por mes</div>
+            
+            <ul className="pricing-features">
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Campañas ilimitadas
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                100 influencers por mes
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Analytics avanzados
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                API access
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Soporte prioritario
+              </li>
+            </ul>
+            
+            <button 
+              onClick={() => setUserType('brand')}
+              className="btn btn-primary"
+              style={{width: '100%'}}
+            >
+              Empezar
+            </button>
+          </div>
+          
+          <div className="pricing-card">
+            <h3 className="pricing-plan">Enterprise</h3>
+            <div className="pricing-price">Custom</div>
+            <div className="pricing-period">contactar ventas</div>
+            
+            <ul className="pricing-features">
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Todo ilimitado
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Account Manager dedicado
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Integraciones custom
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                SLA garantizado
+              </li>
+              <li className="pricing-feature">
+                <span className="check-icon">✓</span>
+                Training personalizado
+              </li>
+            </ul>
+            
+            <button className="btn btn-secondary" style={{width: '100%'}}>
+              Contactar
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA Section */}
+      <section className="cta">
+        <div className="cta-content">
+          <h2 className="cta-title">¿Listo para escalar tu marketing?</h2>
+          <p className="cta-subtitle">
+            Únete a miles de marcas e influencers que ya están creciendo con TUTUCA
+          </p>
+          
+          <div className="cta-buttons">
+            <button 
+              onClick={() => setUserType('brand')}
+              className="btn btn-primary"
+              style={{padding: '1rem 3rem', fontSize: '1.125rem'}}
+            >
+              Crear Cuenta Gratis
+            </button>
+            <button 
+              onClick={() => setUserType('influencer')}
+              className="btn btn-secondary"
+              style={{padding: '1rem 3rem', fontSize: '1.125rem'}}
+            >
+              Soy Influencer
+            </button>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-content">
+          <div className="footer-brand">
+            <div className="footer-logo">TUTUCA</div>
+            <p className="footer-description">
+              La plataforma líder de influencer marketing en LATAM. 
+              Conectando marcas con voces auténticas desde 2023.
+            </p>
+            <div className="social-links">
+              <a href="#" className="social-link">f</a>
+              <a href="#" className="social-link">𝕏</a>
+              <a href="#" className="social-link">in</a>
+              <a href="#" className="social-link">@</a>
+            </div>
+          </div>
+          
+          <div className="footer-column">
+            <h4 className="footer-title">Producto</h4>
+            <a href="#features" className="footer-link">Características</a>
+            <a href="#pricing" className="footer-link">Precios</a>
+            <a href="#" className="footer-link">API</a>
+            <a href="#" className="footer-link">Integraciones</a>
+          </div>
+          
+          <div className="footer-column">
+            <h4 className="footer-title">Empresa</h4>
+            <a href="#" className="footer-link">Sobre Nosotros</a>
+            <a href="#" className="footer-link">Blog</a>
+            <a href="#" className="footer-link">Carreras</a>
+            <a href="#" className="footer-link">Contacto</a>
+          </div>
+          
+          <div className="footer-column">
+            <h4 className="footer-title">Legal</h4>
+            <a href="#" className="footer-link">Términos</a>
+            <a href="#" className="footer-link">Privacidad</a>
+            <a href="#" className="footer-link">Cookies</a>
+            <a href="#" className="footer-link">GDPR</a>
+          </div>
+        </div>
+        
+        <div className="footer-bottom">
+          <p>© 2025 TUTUCA. Todos los derechos reservados. Hecho con 💚 en LATAM</p>
+        </div>
+      </footer>
 
       {/* Auth Modal */}
       {userType && (
