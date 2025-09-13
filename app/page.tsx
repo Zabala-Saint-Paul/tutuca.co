@@ -146,9 +146,9 @@ export default function HomePage() {
         </div>
         
         <div className="max-w-6xl text-center z-10">
-          <div className="inline-block bg-green-400/10 border border-green-400/30 text-green-400 px-4 py-2 rounded-full text-sm font-semibold mb-8 animate-pulse">
-            🔥 #1 EN LATAM
-          </div>
+            <div className="inline-block bg-green-400/10 border border-green-400/30 text-green-400 px-4 py-2 rounded-full text-sm font-semibold mb-8 animate-pulse">
+              🔥 #1 EN LATAM - DEPLOYED
+            </div>
           
           <h1 className="text-6xl md:text-7xl font-black mb-6 leading-tight">
             Conectamos <span className="bg-gradient-to-r from-green-400 to-cyan-400 bg-clip-text text-transparent">Marcas</span><br />
